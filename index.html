@@ -2,19 +2,7 @@
 <html lang="ru">
 <head>
 <script>
-<!-- Yandex.Metrika counter -->
-<script type="text/javascript">
-    (function(m,e,t,r,i,k,a){
-        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-        m[i].l=1*new Date();
-        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
-        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
-    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=111716284', 'ym');
-
-    ym(111716284, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
-</script>
-<noscript><div><img src="https://mc.yandex.ru/watch/111716284" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-<!-- /Yandex.Metrika counter -->
+  // ставим тему до отрисовки, чтобы не было "мигания" при загрузке
   (function(){
     try{
       var saved = localStorage.getItem('ne-ti-theme');
@@ -27,14 +15,14 @@
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NE-TI — Статические и динамические испытания свай, забивка свай по Казахстану | Астана</title>
-<meta name="description" content="NE-TI проводит статические и динамические испытания свай (ГОСТ 5686-2020), а также забивку железобетонных свай по всему Казахстану. Офис в Астане, выезд инженера в любой регион РК. Заявка в WhatsApp.">
-<meta name="keywords" content="статические испытания свай, динамические испытания свай, забивка свай, испытания свай Казахстан, испытания свай Астана, несущая способность сваи, ГОСТ 5686-2020, сваебойные работы, погружение свай">
+<title>NE-TI — испытания свай и забивка свай в Казахстане: Астана, Алматы, Караганда и др.</title>
+<meta name="description" content="Статические и динамические испытания свай (ГОСТ 5686-2020), забивка железобетонных свай — по всему Казахстану: Астана, Алматы, Шымкент, Караганда, Атырау и другие города. Выезд инженера в течение 2 дней. Заявка в WhatsApp.">
+<meta name="keywords" content="статические испытания свай, динамические испытания свай, забивка свай, испытания свай Казахстан, испытания свай Астана, испытания свай Алматы, испытания свай Караганда, несущая способность сваи, ГОСТ 5686-2020, метод PDA ELDI, сваебойные работы, погружение свай, забивка железобетонных свай, контрольная добивка свай">
 <link rel="canonical" href="https://ne-ti.kz/">
 
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="NE-TI">
-<meta property="og:title" content="NE-TI — испытания и забивка свай по всему Казахстану">
+<meta property="og:title" content="NE-TI — испытания свай и забивка свай в Казахстане">
 <meta property="og:description" content="Статические и динамические испытания свай, забивка железобетонных свай. ГОСТ 5686-2020. Работаем по всему Казахстану, офис — Астана.">
 <meta property="og:url" content="https://ne-ti.kz/">
 <meta property="og:locale" content="ru_RU">
@@ -66,13 +54,129 @@
     "addressCountry": "KZ"
   },
   "telephone": "+7-702-275-9489",
-  "areaServed": {
-    "@type": "Country",
-    "name": "Казахстан"
-  },
+  "foundingDate": "2017",
+  "areaServed": [
+    { "@type": "Country", "name": "Казахстан" },
+    { "@type": "City", "name": "Астана" },
+    { "@type": "City", "name": "Алматы" },
+    { "@type": "City", "name": "Шымкент" },
+    { "@type": "City", "name": "Караганда" },
+    { "@type": "City", "name": "Актобе" },
+    { "@type": "City", "name": "Атырау" },
+    { "@type": "City", "name": "Павлодар" },
+    { "@type": "City", "name": "Костанай" },
+    { "@type": "City", "name": "Усть-Каменогорск" },
+    { "@type": "City", "name": "Тараз" },
+    { "@type": "City", "name": "Кызылорда" },
+    { "@type": "City", "name": "Актау" },
+    { "@type": "City", "name": "Петропавловск" },
+    { "@type": "City", "name": "Уральск" },
+    { "@type": "City", "name": "Аксу" }
+  ],
   "priceRange": "$$",
   "url": "https://ne-ti.kz/",
-  "sameAs": []
+  "sameAs": [],
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Услуги NE-TI",
+    "itemListElement": [
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Динамические испытания свай",
+          "description": "Определение несущей способности и контрольного отказа сваи методом PDA/ELDI по ГОСТ 5686-2020.",
+          "areaServed": { "@type": "Country", "name": "Казахстан" },
+          "provider": { "@type": "ProfessionalService", "name": "NE-TI" }
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Статические испытания свай",
+          "description": "Определение несущей способности сваи эталонной статической нагрузкой по ГОСТ 5686-2020.",
+          "areaServed": { "@type": "Country", "name": "Казахстан" },
+          "provider": { "@type": "ProfessionalService", "name": "NE-TI" }
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Забивка свай",
+          "description": "Погружение железобетонных забивных свай сваебойными установками, любые грунты.",
+          "areaServed": { "@type": "Country", "name": "Казахстан" },
+          "provider": { "@type": "ProfessionalService", "name": "NE-TI" }
+        }
+      }
+    ]
+  }
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Чем статические испытания отличаются от динамических?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Статические испытания прикладывают к свае реальную эталонную нагрузку и напрямую измеряют осадку — это самый точный метод, но дороже и дольше. Динамические испытания (метод PDA/ELDI) оценивают несущую способность по волновой теории удара — быстрее, дешевле и подходят для проверки большого числа свай на объекте."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Сколько стоит испытание одной сваи?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Стоимость зависит от метода испытания, типа и длины сваи, грунтовых условий и удалённости объекта от Астаны. Присылайте параметры объекта в WhatsApp — рассчитаем стоимость в течение дня."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Вы работаете только в Астане?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Нет, головной офис находится в Астане, но мы регулярно выезжаем по всему Казахстану — от Атырау и Актау до Усть-Каменогорска. Стоимость перебазировки техники и инженера рассчитывается под конкретный маршрут."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Какие документы вы выдаёте по итогам испытаний?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Протокол испытаний с графиками нагрузки и осадки, а также заключение о несущей способности сваи — документы оформляются в соответствии с ГОСТ 5686-2020 и принимаются экспертизой."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Как быстро вы можете начать работы после заявки?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Как правило, инженер выезжает на объект в течение 2 дней после согласования программы испытаний. Точные сроки зависят от загрузки техники и удалённости объекта."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Сколько стоит забивка свай?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Стоимость забивки зависит от типа и длины сваи, объёма работ, грунтовых условий и удалённости объекта. Присылайте параметры объекта в WhatsApp — рассчитаем стоимость и сроки в течение дня."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Нужна ли аккредитация для проведения испытаний свай?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Да, испытания должна проводить организация с соответствующей аккредитацией лаборатории — иначе протокол не примет экспертиза. NE-TI проводит испытания в соответствии с ГОСТ 5686-2020, наши протоколы принимаются государственной экспертизой РК."
+      }
+    }
+  ]
 }
 </script>
 
@@ -538,6 +642,7 @@
         <div class="kicker">География работ</div>
         <h2>Офис в Астане. Техника — по всей стране.</h2>
         <p class="section-note" style="margin:18px 0 0;max-width:56ch;">Головной офис и склад техники находятся в Астане, но объекты — по всему Казахстану: от Атырау до Усть-Каменогорска. Перебазировка сваебойной установки и инженера рассчитывается индивидуально под маршрут.</p>
+        <p class="section-note" style="margin:14px 0 0;max-width:56ch;">Проводим статические и динамические испытания свай, а также забивку свай в Алматы, Шымкенте, Караганде, Актобе, Атырау, Павлодаре, Костанае, Усть-Каменогорске, Таразе, Кызылорде и Актау.</p>
         <div class="city-tags">
           <span class="city-tag hq">Астана · офис</span>
           <span class="city-tag">Алматы</span>
@@ -693,6 +798,14 @@
         <div class="faq-item">
           <div class="faq-q">Как быстро вы можете начать работы после заявки?<span class="plus">+</span></div>
           <div class="faq-a"><p>Как правило, инженер выезжает на объект в течение 2 дней после согласования программы испытаний. Точные сроки зависят от загрузки техники и удалённости объекта.</p></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">Сколько стоит забивка свай?<span class="plus">+</span></div>
+          <div class="faq-a"><p>Стоимость забивки зависит от типа и длины сваи, объёма работ, грунтовых условий и удалённости объекта. Присылайте параметры объекта в WhatsApp — рассчитаем стоимость и сроки в течение дня.</p></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">Нужна ли аккредитация для проведения испытаний свай?<span class="plus">+</span></div>
+          <div class="faq-a"><p>Да, испытания должна проводить организация с соответствующей аккредитацией лаборатории — иначе протокол не примет экспертиза. NE-TI проводит испытания в соответствии с ГОСТ 5686-2020, наши протоколы принимаются государственной экспертизой РК.</p></div>
         </div>
       </div>
     </div>
