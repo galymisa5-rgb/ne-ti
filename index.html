@@ -1,6 +1,18 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
+<script>
+  // ставим тему до отрисовки, чтобы не было "мигания" при загрузке
+  (function(){
+    try{
+      var saved = localStorage.getItem('ne-ti-theme');
+      var theme = saved || 'light';
+      document.documentElement.setAttribute('data-theme', theme);
+    }catch(e){
+      document.documentElement.setAttribute('data-theme','light');
+    }
+  })();
+</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>NE-TI — Статические и динамические испытания свай, забивка свай по Казахстану | Астана</title>
@@ -18,6 +30,11 @@
 <meta name="robots" content="index, follow">
 <meta name="geo.region" content="KZ-71">
 <meta name="geo.placename" content="Астана">
+
+<!-- Верификация Google Search Console: замените CONTENT на код из GSC (Настройки → Проверка прав → тег HTML) -->
+<meta name="google-site-verification" content="ЗАМЕНИТЕ_НА_СВОЙ_КОД">
+<!-- Верификация Yandex Webmaster: замените CONTENT на код из вебмастера (Добавить сайт → HTML-тег) -->
+<meta name="yandex-verification" content="ЗАМЕНИТЕ_НА_СВОЙ_КОД" />
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -48,7 +65,24 @@
 </script>
 
 <style>
-  :root{
+  :root,
+  html[data-theme="light"]{
+    --bg:#f5f1e8;
+    --bg-panel:#ffffff;
+    --bg-panel-2:#faf7ef;
+    --line:#e2ddce;
+    --steel:#3f5c78;
+    --steel-dim:#c7d0da;
+    --accent:#ff6a1a;
+    --accent-dim:#e0580f;
+    --paper:#181d24;
+    --paper-dim:#4a5361;
+    --muted:#767f8c;
+    --mono-num:#c14e14;
+    --radius:2px;
+    --maxw:1180px;
+  }
+  html[data-theme="dark"]{
     --bg:#10141a;
     --bg-panel:#171d26;
     --bg-panel-2:#1c2430;
@@ -61,8 +95,6 @@
     --paper-dim:#b7bcc6;
     --muted:#7c8798;
     --mono-num:#ffb27a;
-    --radius:2px;
-    --maxw:1180px;
   }
   *{box-sizing:border-box;}
   html{scroll-behavior:smooth;}
@@ -73,6 +105,7 @@
     font-family:'Inter',sans-serif;
     -webkit-font-smoothing:antialiased;
     overflow-x:hidden;
+    transition:background .25s ease, color .25s ease;
   }
   h1,h2,h3,.disp{
     font-family:'Space Grotesk',sans-serif;
@@ -148,6 +181,16 @@
 
   /* diagram */
   .diagram-card{
+    /* фиксированная тёмная "приборная" панель — не зависит от темы сайта, как экран датчика */
+    --bg-panel:#171d26;
+    --bg-panel-2:#1c2430;
+    --line:#262e3b;
+    --steel:#5c7fa8;
+    --paper:#eae7de;
+    --paper-dim:#b7bcc6;
+    --muted:#7c8798;
+    --mono-num:#ffb27a;
+    --accent:#ff6a1a;
     background:var(--bg-panel);border:1px solid var(--line);border-radius:6px;
     padding:22px 22px 16px;position:relative;
   }
@@ -237,6 +280,22 @@
   .wa-float svg{width:28px;height:28px;}
   .wa-float{animation:float-pulse 2.6s infinite;}
   @keyframes float-pulse{0%,100%{box-shadow:0 8px 24px rgba(255,106,26,.35);}50%{box-shadow:0 8px 30px rgba(255,106,26,.6);}}
+
+  /* theme toggle — stacked above the WhatsApp button, bottom right */
+  .theme-toggle{
+    position:fixed;bottom:94px;right:24px;z-index:60;
+    width:50px;height:50px;border-radius:50%;
+    background:var(--bg-panel);border:1px solid var(--line);
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.12);
+    transition:border-color .15s ease, transform .15s ease;
+    padding:0;
+  }
+  .theme-toggle:hover{border-color:var(--steel);transform:translateY(-1px);}
+  .theme-toggle svg{width:22px;height:22px;stroke:var(--paper);}
+  .theme-toggle .icon-sun{display:none;}
+  html[data-theme="dark"] .theme-toggle .icon-sun{display:block;}
+  html[data-theme="dark"] .theme-toggle .icon-moon{display:none;}
 
   @media(prefers-reduced-motion: reduce){
     *{animation:none !important; transition:none !important;}
@@ -506,12 +565,29 @@
   </div>
 </footer>
 
+<button class="theme-toggle" id="themeToggle" type="button" aria-label="Переключить тему">
+  <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+  <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+</button>
+
 <a class="wa-float" href="https://wa.me/77022759489?text=Здравствуйте!%20Нужна%20консультация%20по%20испытаниям%20свай." target="_blank" rel="noopener" aria-label="Написать в WhatsApp">
   <svg viewBox="0 0 32 32" fill="#10141a"><path d="M16.02 3C9.4 3 4 8.4 4 15.02c0 2.32.63 4.5 1.75 6.38L4 29l7.78-1.7a11.9 11.9 0 0 0 4.24.78h.02c6.62 0 12-5.4 12-12.02C28.04 8.4 22.65 3 16.02 3zm0 21.7h-.02a9.7 9.7 0 0 1-4.94-1.36l-.35-.21-4.62 1.01 1.02-4.5-.23-.37a9.68 9.68 0 0 1-1.5-5.25c0-5.36 4.37-9.72 9.75-9.72 2.6 0 5.05 1.02 6.89 2.86a9.65 9.65 0 0 1 2.85 6.87c0 5.36-4.37 9.72-9.85 9.72zm5.34-7.28c-.29-.15-1.74-.86-2.01-.96-.27-.1-.47-.15-.66.15-.2.29-.76.95-.93 1.15-.17.2-.34.22-.63.07-.29-.15-1.22-.45-2.32-1.43-.86-.76-1.44-1.7-1.61-1.99-.17-.29-.02-.45.13-.6.13-.13.29-.34.44-.51.15-.17.2-.29.29-.49.1-.2.05-.37-.02-.51-.07-.15-.66-1.6-.91-2.18-.24-.58-.48-.5-.66-.51h-.56c-.2 0-.51.07-.78.37-.27.29-1.02 1-1.02 2.43s1.05 2.82 1.2 3.01c.15.2 2.07 3.17 5.03 4.44.7.3 1.25.48 1.68.62.7.22 1.34.19 1.85.11.56-.08 1.74-.71 1.98-1.4.24-.68.24-1.27.17-1.4-.07-.12-.27-.2-.56-.34z"/></svg>
 </a>
 
 <script>
   document.getElementById('year').textContent = new Date().getFullYear();
+
+  // theme toggle
+  (function(){
+    const btn = document.getElementById('themeToggle');
+    if(!btn) return;
+    btn.addEventListener('click', ()=>{
+      const current = document.documentElement.getAttribute('data-theme') || 'light';
+      const next = current === 'light' ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', next);
+      try{ localStorage.setItem('ne-ti-theme', next); }catch(e){}
+    });
+  })();
 
   // FAQ accordion
   document.querySelectorAll('.faq-item').forEach(item=>{
