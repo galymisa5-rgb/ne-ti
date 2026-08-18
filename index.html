@@ -251,6 +251,20 @@
   .stat b{display:block;font-family:'JetBrains Mono';font-size:30px;color:var(--paper);font-weight:600;}
   .stat span{font-size:13px;color:var(--muted);}
 
+  /* cases / portfolio */
+  .cases-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line);}
+  @media(max-width:760px){.cases-grid{grid-template-columns:1fr;}}
+  .case-row{background:var(--bg-panel);display:flex;gap:16px;align-items:center;padding:18px 20px;}
+  .case-thumb{
+    width:64px;height:64px;flex-shrink:0;border-radius:4px;overflow:hidden;
+    background:var(--bg-panel-2);border:1px solid var(--line);
+  }
+  .case-thumb img{width:100%;height:100%;object-fit:cover;display:block;}
+  .case-info{min-width:0;}
+  .case-title{font-family:'Space Grotesk';font-size:15px;font-weight:600;color:var(--paper);line-height:1.3;}
+  .case-meta{font-family:'JetBrains Mono';font-size:12px;color:var(--muted);margin-top:5px;display:flex;flex-wrap:wrap;gap:8px;}
+  .case-meta .tonnage{color:var(--accent-dim);}
+
   /* faq */
   .faq-item{border-bottom:1px solid var(--line);}
   .faq-q{
@@ -315,6 +329,7 @@
       <a href="#services">Услуги</a>
       <a href="#process">Как работаем</a>
       <a href="#coverage">География</a>
+      <a href="#cases">Объекты</a>
       <a href="#faq">Вопросы</a>
       <a href="#contact">Контакты</a>
     </nav>
@@ -341,7 +356,7 @@
         </div>
         <div class="hero-meta">
           <div><b>17</b>областей РК с выездом</div>
-          <div><b>500+</b>испытаний проведено</div>
+          <div><b>1000+</b>испытаний проведено</div>
           <div><b>48ч</b>средний срок выезда</div>
         </div>
       </div>
@@ -497,10 +512,102 @@
       <div>
         <div class="kicker">В цифрах</div>
         <div class="stat-list">
-          <div class="stat"><b>500+</b><span>испытаний свай проведено</span></div>
+          <div class="stat"><b>1000+</b><span>испытаний свай проведено</span></div>
           <div class="stat"><b>17</b><span>областей Казахстана с выездом</span></div>
           <div class="stat"><b>2 дня</b><span>средний срок выезда инженера</span></div>
           <div class="stat"><b>0</b><span>протоколов, отклонённых экспертизой</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CASES -->
+  <section id="cases">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <div class="kicker">Портфолио</div>
+          <h2>Объекты, где мы уже подтвердили несущую способность</h2>
+        </div>
+        <p class="section-note">Часть реализованных статических испытаний — по городам и нагрузкам. Полные протоколы предоставляем по запросу.</p>
+      </div>
+      <div class="cases-grid">
+        <div class="case-row">
+          <div class="case-thumb"><img src="images/object-petropavlovsk-80t-2026-06.jpg" alt="Статические испытания свай, г. Петропавловск" loading="lazy"></div>
+          <div class="case-info">
+            <div class="case-title">г. Петропавловск</div>
+            <div class="case-meta"><span class="tonnage">до 80 т</span><span>июнь 2026</span></div>
+          </div>
+        </div>
+        <div class="case-row">
+          <div class="case-thumb"><img src="images/object-astana-favorit-60t-2026-06.jpg" alt="Статические испытания свай, ЖК Фаворит, г. Астана" loading="lazy"></div>
+          <div class="case-info">
+            <div class="case-title">ЖК «Фаворит», г. Астана</div>
+            <div class="case-meta"><span class="tonnage">до 60 т</span><span>июнь 2026</span></div>
+          </div>
+        </div>
+        <div class="case-row">
+          <div class="case-thumb"><img src="images/object-karaganda-bc-100t-2026.jpg" alt="Статические испытания свай, бизнес-центр, г. Караганда" loading="lazy"></div>
+          <div class="case-info">
+            <div class="case-title">Бизнес-центр, г. Караганда</div>
+            <div class="case-meta"><span class="tonnage">до 100 т</span><span>2026</span></div>
+          </div>
+        </div>
+        <div class="case-row">
+          <div class="case-thumb"><img src="images/object-astana-80t-2026-04.jpg" alt="Статические испытания свай, г. Астана" loading="lazy"></div>
+          <div class="case-info">
+            <div class="case-title">г. Астана</div>
+            <div class="case-meta"><span class="tonnage">до 80 т</span><span>апрель 2026</span></div>
+          </div>
+        </div>
+        <div class="case-row">
+          <div class="case-thumb"><img src="images/object-uralsk-bridge-80t-2025-07.jpg" alt="Статические испытания свай, мост, г. Уральск" loading="lazy"></div>
+          <div class="case-info">
+            <div class="case-title">Мост, г. Уральск</div>
+            <div class="case-meta"><span class="tonnage">до 80 т</span><span>июль 2025</span></div>
+          </div>
+        </div>
+        <div class="case-row">
+          <div class="case-thumb"><img src="images/object-karaganda-argyn-85t-2024.jpg" alt="Статические испытания свай, ЖК Аргын, г. Караганда" loading="lazy"></div>
+          <div class="case-info">
+            <div class="case-title">ЖК «Аргын», г. Караганда</div>
+            <div class="case-meta"><span class="tonnage">до 85 т</span><span>2024</span></div>
+          </div>
+        </div>
+        <div class="case-row">
+          <div class="case-thumb"><img src="images/object-kostanay-180t-2024-01.jpg" alt="Статические испытания свай, г. Костанай" loading="lazy"></div>
+          <div class="case-info">
+            <div class="case-title">г. Костанай</div>
+            <div class="case-meta"><span class="tonnage">до 180 т</span><span>январь 2024</span></div>
+          </div>
+        </div>
+        <div class="case-row">
+          <div class="case-thumb"><img src="images/object-60t-2024-09.jpg" alt="Статические испытания свай" loading="lazy"></div>
+          <div class="case-info">
+            <div class="case-title">Объект заказчика</div>
+            <div class="case-meta"><span class="tonnage">до 60 т</span><span>сентябрь 2024</span></div>
+          </div>
+        </div>
+        <div class="case-row">
+          <div class="case-thumb"><img src="images/object-astana-mega-garden.jpg" alt="Статическое испытание анкерным методом, ЖК Mega Garden, г. Астана" loading="lazy"></div>
+          <div class="case-info">
+            <div class="case-title">ЖК Mega Garden, г. Астана</div>
+            <div class="case-meta"><span>испытание анкерным методом</span></div>
+          </div>
+        </div>
+        <div class="case-row">
+          <div class="case-thumb"><img src="images/object-aksu-kazchrome-20t.jpg" alt="Статические испытания свай, завод ферросплавов Казхром, г. Аксу" loading="lazy"></div>
+          <div class="case-info">
+            <div class="case-title">Завод ферросплавов «Казхром», г. Аксу</div>
+            <div class="case-meta"><span class="tonnage">до 20 т</span></div>
+          </div>
+        </div>
+        <div class="case-row">
+          <div class="case-thumb"><img src="images/object-karaganda-105t.jpg" alt="Статические испытания свай, г. Караганда" loading="lazy"></div>
+          <div class="case-info">
+            <div class="case-title">г. Караганда</div>
+            <div class="case-meta"><span class="tonnage">до 105 т</span></div>
+          </div>
         </div>
       </div>
     </div>
