@@ -252,18 +252,50 @@
   .stat span{font-size:13px;color:var(--muted);}
 
   /* cases / portfolio */
-  .cases-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line);}
-  @media(max-width:760px){.cases-grid{grid-template-columns:1fr;}}
-  .case-row{background:var(--bg-panel);display:flex;gap:16px;align-items:center;padding:18px 20px;}
-  .case-thumb{
-    width:64px;height:64px;flex-shrink:0;border-radius:4px;overflow:hidden;
-    background:var(--bg-panel-2);border:1px solid var(--line);
+  .cases-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+  @media(max-width:980px){.cases-grid{grid-template-columns:repeat(2,1fr);}}
+  @media(max-width:620px){.cases-grid{grid-template-columns:1fr;}}
+  .case-row{
+    background:var(--bg-panel);border:1px solid var(--line);border-radius:6px;
+    overflow:hidden;cursor:zoom-in;
   }
-  .case-thumb img{width:100%;height:100%;object-fit:cover;display:block;}
-  .case-info{min-width:0;}
+  .case-thumb{
+    width:100%;aspect-ratio:4/3;overflow:hidden;position:relative;
+    background:var(--bg-panel-2);
+  }
+  .case-thumb img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .35s ease;}
+  .case-row:hover .case-thumb img{transform:scale(1.05);}
+  .case-thumb::after{
+    content:'⤢';position:absolute;top:10px;right:10px;
+    width:30px;height:30px;border-radius:50%;
+    background:rgba(16,20,26,.55);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-size:15px;
+    opacity:0;transition:opacity .2s ease;
+  }
+  .case-row:hover .case-thumb::after{opacity:1;}
+  .case-info{padding:14px 16px 16px;}
   .case-title{font-family:'Space Grotesk';font-size:15px;font-weight:600;color:var(--paper);line-height:1.3;}
-  .case-meta{font-family:'JetBrains Mono';font-size:12px;color:var(--muted);margin-top:5px;display:flex;flex-wrap:wrap;gap:8px;}
+  .case-meta{font-family:'JetBrains Mono';font-size:12px;color:var(--muted);margin-top:6px;display:flex;flex-wrap:wrap;gap:8px;}
   .case-meta .tonnage{color:var(--accent-dim);}
+
+  /* lightbox */
+  .lightbox{
+    position:fixed;inset:0;z-index:100;background:rgba(10,12,16,.92);
+    display:none;align-items:center;justify-content:center;padding:32px;
+    cursor:zoom-out;
+  }
+  .lightbox.open{display:flex;}
+  .lightbox img{max-width:min(90vw,900px);max-height:85vh;border-radius:4px;box-shadow:0 20px 60px rgba(0,0,0,.5);display:block;}
+  .lightbox-caption{
+    position:absolute;bottom:28px;left:0;right:0;text-align:center;
+    font-family:'JetBrains Mono';font-size:13px;color:#eae7de;
+  }
+  .lightbox-close{
+    position:absolute;top:20px;right:24px;width:40px;height:40px;border-radius:50%;
+    background:rgba(255,255,255,.1);color:#fff;border:none;font-size:20px;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .lightbox-close:hover{background:rgba(255,255,255,.2);}
 
   /* faq */
   .faq-item{border-bottom:1px solid var(--line);}
@@ -532,77 +564,77 @@
         <p class="section-note">Часть реализованных статических испытаний — по городам и нагрузкам. Полные протоколы предоставляем по запросу.</p>
       </div>
       <div class="cases-grid">
-        <div class="case-row">
+        <div class="case-row" data-caption="г. Петропавловск · до 80 т · июнь 2026">
           <div class="case-thumb"><img src="images/object-petropavlovsk-80t-2026-06.jpg" alt="Статические испытания свай, г. Петропавловск" loading="lazy"></div>
           <div class="case-info">
             <div class="case-title">г. Петропавловск</div>
             <div class="case-meta"><span class="tonnage">до 80 т</span><span>июнь 2026</span></div>
           </div>
         </div>
-        <div class="case-row">
-          <div class="case-thumb"><img src="images/object-astana-favorit-60t-2026-06.jpg" alt="Статические испытания свай, ЖК Фаворит, г. Астана" loading="lazy"></div>
+        <div class="case-row" data-caption="г. Астана · до 60 т · июнь 2026">
+          <div class="case-thumb"><img src="images/object-astana-favorit-60t-2026-06.jpg" alt="Статические испытания свай, г. Астана" loading="lazy"></div>
           <div class="case-info">
-            <div class="case-title">ЖК «Фаворит», г. Астана</div>
+            <div class="case-title">г. Астана</div>
             <div class="case-meta"><span class="tonnage">до 60 т</span><span>июнь 2026</span></div>
           </div>
         </div>
-        <div class="case-row">
+        <div class="case-row" data-caption="Бизнес-центр, г. Караганда · до 100 т · 2026">
           <div class="case-thumb"><img src="images/object-karaganda-bc-100t-2026.jpg" alt="Статические испытания свай, бизнес-центр, г. Караганда" loading="lazy"></div>
           <div class="case-info">
             <div class="case-title">Бизнес-центр, г. Караганда</div>
             <div class="case-meta"><span class="tonnage">до 100 т</span><span>2026</span></div>
           </div>
         </div>
-        <div class="case-row">
+        <div class="case-row" data-caption="г. Астана · до 80 т · апрель 2026">
           <div class="case-thumb"><img src="images/object-astana-80t-2026-04.jpg" alt="Статические испытания свай, г. Астана" loading="lazy"></div>
           <div class="case-info">
             <div class="case-title">г. Астана</div>
             <div class="case-meta"><span class="tonnage">до 80 т</span><span>апрель 2026</span></div>
           </div>
         </div>
-        <div class="case-row">
+        <div class="case-row" data-caption="Мост, г. Уральск · до 80 т · июль 2025">
           <div class="case-thumb"><img src="images/object-uralsk-bridge-80t-2025-07.jpg" alt="Статические испытания свай, мост, г. Уральск" loading="lazy"></div>
           <div class="case-info">
             <div class="case-title">Мост, г. Уральск</div>
             <div class="case-meta"><span class="tonnage">до 80 т</span><span>июль 2025</span></div>
           </div>
         </div>
-        <div class="case-row">
+        <div class="case-row" data-caption="ЖК «Аргын», г. Караганда · до 85 т · 2024">
           <div class="case-thumb"><img src="images/object-karaganda-argyn-85t-2024.jpg" alt="Статические испытания свай, ЖК Аргын, г. Караганда" loading="lazy"></div>
           <div class="case-info">
             <div class="case-title">ЖК «Аргын», г. Караганда</div>
             <div class="case-meta"><span class="tonnage">до 85 т</span><span>2024</span></div>
           </div>
         </div>
-        <div class="case-row">
+        <div class="case-row" data-caption="г. Костанай · до 180 т · январь 2024">
           <div class="case-thumb"><img src="images/object-kostanay-180t-2024-01.jpg" alt="Статические испытания свай, г. Костанай" loading="lazy"></div>
           <div class="case-info">
             <div class="case-title">г. Костанай</div>
             <div class="case-meta"><span class="tonnage">до 180 т</span><span>январь 2024</span></div>
           </div>
         </div>
-        <div class="case-row">
+        <div class="case-row" data-caption="Объект заказчика · до 60 т · сентябрь 2024">
           <div class="case-thumb"><img src="images/object-60t-2024-09.jpg" alt="Статические испытания свай" loading="lazy"></div>
           <div class="case-info">
             <div class="case-title">Объект заказчика</div>
             <div class="case-meta"><span class="tonnage">до 60 т</span><span>сентябрь 2024</span></div>
           </div>
         </div>
-        <div class="case-row">
+        <div class="case-row" data-caption="ЖК Mega Garden, г. Астана · испытание анкерным методом">
           <div class="case-thumb"><img src="images/object-astana-mega-garden.jpg" alt="Статическое испытание анкерным методом, ЖК Mega Garden, г. Астана" loading="lazy"></div>
           <div class="case-info">
             <div class="case-title">ЖК Mega Garden, г. Астана</div>
             <div class="case-meta"><span>испытание анкерным методом</span></div>
           </div>
         </div>
-        <div class="case-row">
+        <div class="case-row" data-caption="Завод ферросплавов «Казхром», г. Аксу · до 20 т">
           <div class="case-thumb"><img src="images/object-aksu-kazchrome-20t.jpg" alt="Статические испытания свай, завод ферросплавов Казхром, г. Аксу" loading="lazy"></div>
           <div class="case-info">
             <div class="case-title">Завод ферросплавов «Казхром», г. Аксу</div>
             <div class="case-meta"><span class="tonnage">до 20 т</span></div>
           </div>
         </div>
-        <div class="case-row">
+        <div class="case-row" data-caption="г. Караганда · до 105 т">
           <div class="case-thumb"><img src="images/object-karaganda-105t.jpg" alt="Статические испытания свай, г. Караганда" loading="lazy"></div>
           <div class="case-info">
             <div class="case-title">г. Караганда</div>
@@ -612,6 +644,13 @@
       </div>
     </div>
   </section>
+
+  <!-- lightbox for portfolio photos -->
+  <div class="lightbox" id="lightbox">
+    <button class="lightbox-close" id="lightboxClose" type="button" aria-label="Закрыть">✕</button>
+    <img id="lightboxImg" src="" alt="">
+    <div class="lightbox-caption" id="lightboxCaption"></div>
+  </div>
 
   <!-- FAQ -->
   <section id="faq">
@@ -699,6 +738,43 @@
     });
   })();
 
+  // portfolio lightbox — click a case photo to view it enlarged
+  (function(){
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightboxImg');
+    const lightboxCaption = document.getElementById('lightboxCaption');
+    const closeBtn = document.getElementById('lightboxClose');
+    if(!lightbox) return;
+
+    function openLightbox(src, alt, caption){
+      lightboxImg.src = src;
+      lightboxImg.alt = alt || '';
+      lightboxCaption.textContent = caption || '';
+      lightbox.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLightbox(){
+      lightbox.classList.remove('open');
+      lightboxImg.src = '';
+      document.body.style.overflow = '';
+    }
+
+    document.querySelectorAll('.case-row').forEach(row=>{
+      row.addEventListener('click', ()=>{
+        const img = row.querySelector('img');
+        if(!img) return;
+        openLightbox(img.src, img.alt, row.getAttribute('data-caption'));
+      });
+    });
+
+    closeBtn.addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', (e)=>{
+      if(e.target === lightbox) closeLightbox();
+    });
+    document.addEventListener('keydown', (e)=>{
+      if(e.key === 'Escape') closeLightbox();
+    });
+  })();
   // FAQ accordion
   document.querySelectorAll('.faq-item').forEach(item=>{
     const q = item.querySelector('.faq-q');
