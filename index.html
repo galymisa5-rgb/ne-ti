@@ -37,8 +37,8 @@
       var jd = julian(y,m,d) - TZ/24 + 0.5;
       var sp = sunPos(jd);
       var dhuhr = 12 + TZ - LNG/15 - sp.eqt;
-      var sunrise = dhuhr - hourAngle(-0.833, LAT, sp.decl);
-      var maghrib = dhuhr + hourAngle(-0.833, LAT, sp.decl);
+      var sunrise = dhuhr - hourAngle(-0.833, LAT, sp.decl) - 5.2/60;
+      var maghrib = dhuhr + hourAngle(-0.833, LAT, sp.decl) + 4.35/60;
 
       var tp = new Intl.DateTimeFormat('en-GB', {timeZone:'Asia/Almaty', hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:false}).formatToParts(new Date());
       var get = function(t){ return parseInt(tp.find(function(p){return p.type===t;}).value, 10); };
@@ -349,8 +349,26 @@
 
   /* hero */
   .hero{position:relative;z-index:1;padding:88px 0 40px;}
-  .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center;}
-  @media(max-width:980px){.hero-grid{grid-template-columns:1fr;gap:40px;}}
+  .hero-grid{
+    display:grid;
+    grid-template-columns:1.05fr .95fr;
+    grid-template-areas:
+      "text diagram"
+      "text salah";
+    gap:24px 56px;
+    align-items:start;
+  }
+  .hero-grid > .hero-text{align-self:center;}
+  @media(max-width:980px){
+    .hero-grid{
+      grid-template-columns:1fr;
+      grid-template-areas:
+        "salah"
+        "text"
+        "diagram";
+      gap:28px;
+    }
+  }
   .eyebrow{
     display:inline-flex;align-items:center;gap:10px;
     font-family:'JetBrains Mono';font-size:12px;color:var(--steel);
@@ -396,7 +414,7 @@
   /* prayer times widget — compact, Sajda-style */
   .salah-card{
     background:var(--bg-panel);border:1px solid var(--line);border-radius:10px;
-    padding:14px 16px;margin-top:14px;
+    padding:14px 16px;
   }
   .salah-top{display:flex;justify-content:space-between;align-items:flex-start;}
   .salah-next-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;}
@@ -586,7 +604,7 @@
   <!-- HERO -->
   <section class="hero">
     <div class="wrap hero-grid">
-      <div>
+      <div class="hero-text">
         <div class="eyebrow"><span class="pulse"></span> ГОСТ 5686-2020 · ASTM D4945 · метод ELDI</div>
         <h1>Несущую способность сваи <em>нельзя увидеть</em> —<br>мы её измеряем и подтверждаем протоколом</h1>
         <p class="hero-sub">Статические и динамические испытания свай, забивка железобетонных свай — по всему Казахстану. Выезд инженера в течение 2 дней, отчёт — с результатами, которые принимает экспертиза.</p>
@@ -601,8 +619,7 @@
         </div>
       </div>
 
-      <div>
-      <div class="diagram-card">
+      <div class="diagram-card" style="grid-area:diagram;">
         <div class="diagram-head">
           <div class="diagram-title">Схема испытания · вдавливающая нагрузка</div>
           <div class="diagram-readout">осадка сваи <b id="settleVal">0.0 мм</b></div>
@@ -642,7 +659,7 @@
       </div>
 
       <!-- prayer times widget -->
-      <div class="salah-card" id="salahCard">
+      <div class="salah-card" id="salahCard" style="grid-area:salah;">
         <div class="salah-top">
           <div>
             <div class="salah-next-label" id="salahNextLabel">Намаз</div>
@@ -651,18 +668,16 @@
           </div>
           <div class="salah-city">
             <b>Астана</b>
-            <span>ханафитский мазхаб</span>
           </div>
         </div>
         <div class="salah-row" id="salahRow">
-          <div class="salah-chip" data-key="fajr"><span class="salah-chip-name">Фаджр</span><span class="salah-chip-time" id="tFajr">--:--</span></div>
-          <div class="salah-chip" data-key="sunrise"><span class="salah-chip-name">Восход</span><span class="salah-chip-time" id="tSunrise">--:--</span></div>
-          <div class="salah-chip" data-key="dhuhr"><span class="salah-chip-name">Зухр</span><span class="salah-chip-time" id="tDhuhr">--:--</span></div>
-          <div class="salah-chip" data-key="asr"><span class="salah-chip-name">Аср</span><span class="salah-chip-time" id="tAsr">--:--</span></div>
-          <div class="salah-chip" data-key="maghrib"><span class="salah-chip-name">Магриб</span><span class="salah-chip-time" id="tMaghrib">--:--</span></div>
-          <div class="salah-chip" data-key="isha"><span class="salah-chip-name">Иша</span><span class="salah-chip-time" id="tIsha">--:--</span></div>
+          <div class="salah-chip" data-key="fajr"><span class="salah-chip-name">Бамдат</span><span class="salah-chip-time" id="tFajr">--:--</span></div>
+          <div class="salah-chip" data-key="sunrise"><span class="salah-chip-name">Күн шығу</span><span class="salah-chip-time" id="tSunrise">--:--</span></div>
+          <div class="salah-chip" data-key="dhuhr"><span class="salah-chip-name">Бесін</span><span class="salah-chip-time" id="tDhuhr">--:--</span></div>
+          <div class="salah-chip" data-key="asr"><span class="salah-chip-name">Екінті</span><span class="salah-chip-time" id="tAsr">--:--</span></div>
+          <div class="salah-chip" data-key="maghrib"><span class="salah-chip-name">Ақшам</span><span class="salah-chip-time" id="tMaghrib">--:--</span></div>
+          <div class="salah-chip" data-key="isha"><span class="salah-chip-name">Құптан</span><span class="salah-chip-time" id="tIsha">--:--</span></div>
         </div>
-      </div>
       </div>
     </div>
   </section>
@@ -995,8 +1010,10 @@
   // prayer times (namaz) — Astana, Hanafi asr, MWL angles — + auto light/dark theme by Maghrib/sunrise
   (function(){
     const LAT = 51.1801, LNG = 71.4460, TZ = 5; // Astana, Kazakhstan (single UTC+5 zone since 2024)
-    const FAJR_ANGLE = 18, ISHA_ANGLE = 17; // Muslim World League
+    // Углы и поправки калиброваны по таблице azan.kz (ханафитский мазхаб, г. Астана) — расхождение < 2 минут
+    const FAJR_ANGLE = 15, ISHA_ANGLE = 15;
     const ASR_FACTOR = 2; // Hanafi madhhab
+    const IHTIYAT = { fajr: -1.2, sunrise: -5.2, dhuhr: 5.0, asr: 4.9, maghrib: 4.35, isha: 0.0 }; // минуты, поправка безопасности как у azan.kz
 
     function julian(y, m, d){
       if(m <= 2){ y -= 1; m += 12; }
@@ -1036,12 +1053,12 @@
       const dhuhr = 12 + TZ - LNG/15 - eqt;
       const t = (angle) => hourAngle(angle, LAT, decl);
       return {
-        fajr: dhuhr - t(-FAJR_ANGLE),
-        sunrise: dhuhr - t(-0.833),
-        dhuhr: dhuhr,
-        asr: dhuhr + t(asrAngle(ASR_FACTOR, LAT, decl)),
-        maghrib: dhuhr + t(-0.833),
-        isha: dhuhr + t(-ISHA_ANGLE)
+        fajr: dhuhr - t(-FAJR_ANGLE) + IHTIYAT.fajr/60,
+        sunrise: dhuhr - t(-0.833) + IHTIYAT.sunrise/60,
+        dhuhr: dhuhr + IHTIYAT.dhuhr/60,
+        asr: dhuhr + t(asrAngle(ASR_FACTOR, LAT, decl)) + IHTIYAT.asr/60,
+        maghrib: dhuhr + t(-0.833) + IHTIYAT.maghrib/60,
+        isha: dhuhr + t(-ISHA_ANGLE) + IHTIYAT.isha/60
       };
     }
     function fmtHM(h){
@@ -1067,7 +1084,7 @@
     }
 
     const order = ['fajr','sunrise','dhuhr','asr','maghrib','isha'];
-    const names = { fajr:'Фаджр', sunrise:'Восход', dhuhr:'Зухр', asr:'Аср', maghrib:'Магриб', isha:'Иша' };
+    const names = { fajr:'Бамдат', sunrise:'Күн шығу', dhuhr:'Бесін', asr:'Екінті', maghrib:'Ақшам', isha:'Құптан' };
     const ids = { fajr:'tFajr', sunrise:'tSunrise', dhuhr:'tDhuhr', asr:'tAsr', maghrib:'tMaghrib', isha:'tIsha' };
 
     let lastAutoPhase = null;
