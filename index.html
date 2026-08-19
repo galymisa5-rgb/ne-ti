@@ -2,14 +2,59 @@
 <html lang="ru">
 <head>
 <script>
-  // ставим тему до отрисовки, чтобы не было "мигания" при загрузке
+  // ставим тему до отрисовки — по фазе намаза (Магриб→Восход = тёмная), чтобы не было "мигания"
+  // ЕСЛИ пользователь переключал тему вручную — его выбор в приоритете, авторасчёт не трогаем
   (function(){
     try{
-      var saved = localStorage.getItem('ne-ti-theme');
-      var theme = saved || 'light';
+      if(localStorage.getItem('ne-ti-theme-manual') === '1'){
+        var savedManual = localStorage.getItem('ne-ti-theme');
+        document.documentElement.setAttribute('data-theme', savedManual || 'light');
+        return;
+      }
+    }catch(e){}
+    try{
+      var LAT = 51.1801, LNG = 71.4460, TZ = 5;
+      function julian(y,m,d){ if(m<=2){y-=1;m+=12;} var A=Math.floor(y/100),B=2-A+Math.floor(A/4);
+        return Math.floor(365.25*(y+4716))+Math.floor(30.6001*(m+1))+d+B-1524.5; }
+      function sunPos(jd){ var D=jd-2451545.0;
+        var g=((357.529+0.98560028*D)%360)*Math.PI/180;
+        var q=(280.459+0.98564736*D)%360;
+        var Ldeg=(q+1.915*Math.sin(g)+0.020*Math.sin(2*g))%360;
+        var L=Ldeg*Math.PI/180;
+        var e=(23.439-0.00000036*D)*Math.PI/180;
+        var RA=Math.atan2(Math.cos(e)*Math.sin(L),Math.cos(L))*180/Math.PI/15;
+        RA=((RA%24)+24)%24;
+        var decl=Math.asin(Math.sin(e)*Math.sin(L));
+        var eqt=q/15-RA; if(eqt>12)eqt-=24; if(eqt<-12)eqt+=24;
+        return {decl:decl, eqt:eqt}; }
+      function hourAngle(angleDeg,latDeg,decl){ var lat=latDeg*Math.PI/180, a=angleDeg*Math.PI/180;
+        var cosH=(Math.sin(a)-Math.sin(lat)*Math.sin(decl))/(Math.cos(lat)*Math.cos(decl));
+        cosH=Math.max(-1,Math.min(1,cosH));
+        return Math.acos(cosH)*180/Math.PI/15; }
+
+      var parts = new Intl.DateTimeFormat('en-CA', {timeZone:'Asia/Almaty', year:'numeric', month:'2-digit', day:'2-digit'}).format(new Date()).split('-');
+      var y=+parts[0], m=+parts[1], d=+parts[2];
+      var jd = julian(y,m,d) - TZ/24 + 0.5;
+      var sp = sunPos(jd);
+      var dhuhr = 12 + TZ - LNG/15 - sp.eqt;
+      var sunrise = dhuhr - hourAngle(-0.833, LAT, sp.decl);
+      var maghrib = dhuhr + hourAngle(-0.833, LAT, sp.decl);
+
+      var tp = new Intl.DateTimeFormat('en-GB', {timeZone:'Asia/Almaty', hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:false}).formatToParts(new Date());
+      var get = function(t){ return parseInt(tp.find(function(p){return p.type===t;}).value, 10); };
+      var nowH = get('hour') + get('minute')/60 + get('second')/3600;
+
+      var isNight = (nowH >= maghrib) || (nowH < sunrise);
+      var theme = isNight ? 'dark' : 'light';
       document.documentElement.setAttribute('data-theme', theme);
+      try{ localStorage.setItem('ne-ti-theme', theme); }catch(e){}
     }catch(e){
-      document.documentElement.setAttribute('data-theme','light');
+      try{
+        var saved = localStorage.getItem('ne-ti-theme');
+        document.documentElement.setAttribute('data-theme', saved || 'light');
+      }catch(e2){
+        document.documentElement.setAttribute('data-theme','light');
+      }
     }
   })();
 </script>
@@ -348,6 +393,29 @@
   .pile-rod{stroke:var(--paper-dim);}
   .load-arrow{fill:var(--accent);}
 
+  /* prayer times widget — compact, Sajda-style */
+  .salah-card{
+    background:var(--bg-panel);border:1px solid var(--line);border-radius:10px;
+    padding:14px 16px;margin-top:14px;
+  }
+  .salah-top{display:flex;justify-content:space-between;align-items:flex-start;}
+  .salah-next-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;}
+  .salah-next-name{font-family:'Space Grotesk';font-weight:600;font-size:15px;color:var(--paper);margin-top:2px;}
+  .salah-timer{font-family:'JetBrains Mono';font-weight:600;font-size:24px;color:var(--paper);letter-spacing:.02em;margin-top:2px;}
+  .salah-city{text-align:right;}
+  .salah-city b{font-family:'Space Grotesk';font-size:14px;color:var(--paper);display:block;}
+  .salah-city span{font-size:11px;color:var(--muted);}
+  .salah-row{display:grid;grid-template-columns:repeat(6,1fr);gap:5px;margin-top:12px;}
+  .salah-chip{
+    background:var(--bg);border-radius:6px;padding:7px 2px;text-align:center;
+    transition:background .2s;
+  }
+  .salah-chip.active{background:var(--accent);}
+  .salah-chip.active .salah-chip-name,
+  .salah-chip.active .salah-chip-time{color:#10141a;}
+  .salah-chip-name{font-size:9.5px;color:var(--muted);display:block;}
+  .salah-chip-time{font-family:'JetBrains Mono';font-size:11.5px;font-weight:600;color:var(--paper);display:block;margin-top:3px;}
+
   /* section shell */
   section{position:relative;z-index:1;padding:88px 0;}
   .section-head{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;margin-bottom:48px;flex-wrap:wrap;}
@@ -533,6 +601,7 @@
         </div>
       </div>
 
+      <div>
       <div class="diagram-card">
         <div class="diagram-head">
           <div class="diagram-title">Схема испытания · вдавливающая нагрузка</div>
@@ -570,6 +639,30 @@
         <div class="diagram-head" style="margin-top:6px;border-top:1px solid var(--line);padding-top:12px;">
           <span class="diagram-title">объект: свая С90-30, испытание №04</span>
         </div>
+      </div>
+
+      <!-- prayer times widget -->
+      <div class="salah-card" id="salahCard">
+        <div class="salah-top">
+          <div>
+            <div class="salah-next-label" id="salahNextLabel">Намаз</div>
+            <div class="salah-next-name" id="salahNextName">—</div>
+            <div class="salah-timer" id="salahTimer">--:--:--</div>
+          </div>
+          <div class="salah-city">
+            <b>Астана</b>
+            <span>ханафитский мазхаб</span>
+          </div>
+        </div>
+        <div class="salah-row" id="salahRow">
+          <div class="salah-chip" data-key="fajr"><span class="salah-chip-name">Фаджр</span><span class="salah-chip-time" id="tFajr">--:--</span></div>
+          <div class="salah-chip" data-key="sunrise"><span class="salah-chip-name">Восход</span><span class="salah-chip-time" id="tSunrise">--:--</span></div>
+          <div class="salah-chip" data-key="dhuhr"><span class="salah-chip-name">Зухр</span><span class="salah-chip-time" id="tDhuhr">--:--</span></div>
+          <div class="salah-chip" data-key="asr"><span class="salah-chip-name">Аср</span><span class="salah-chip-time" id="tAsr">--:--</span></div>
+          <div class="salah-chip" data-key="maghrib"><span class="salah-chip-name">Магриб</span><span class="salah-chip-time" id="tMaghrib">--:--</span></div>
+          <div class="salah-chip" data-key="isha"><span class="salah-chip-name">Иша</span><span class="salah-chip-time" id="tIsha">--:--</span></div>
+        </div>
+      </div>
       </div>
     </div>
   </section>
@@ -892,8 +985,148 @@
       const current = document.documentElement.getAttribute('data-theme') || 'light';
       const next = current === 'light' ? 'dark' : 'light';
       document.documentElement.setAttribute('data-theme', next);
-      try{ localStorage.setItem('ne-ti-theme', next); }catch(e){}
+      try{
+        localStorage.setItem('ne-ti-theme', next);
+        localStorage.setItem('ne-ti-theme-manual', '1'); // помечаем: выбор сделан руками, авторасчёт больше не трогает тему
+      }catch(e){}
     });
+  })();
+
+  // prayer times (namaz) — Astana, Hanafi asr, MWL angles — + auto light/dark theme by Maghrib/sunrise
+  (function(){
+    const LAT = 51.1801, LNG = 71.4460, TZ = 5; // Astana, Kazakhstan (single UTC+5 zone since 2024)
+    const FAJR_ANGLE = 18, ISHA_ANGLE = 17; // Muslim World League
+    const ASR_FACTOR = 2; // Hanafi madhhab
+
+    function julian(y, m, d){
+      if(m <= 2){ y -= 1; m += 12; }
+      const A = Math.floor(y/100), B = 2 - A + Math.floor(A/4);
+      return Math.floor(365.25*(y+4716)) + Math.floor(30.6001*(m+1)) + d + B - 1524.5;
+    }
+    function sunPos(jd){
+      const D = jd - 2451545.0;
+      const g = ((357.529 + 0.98560028*D) % 360) * Math.PI/180;
+      const q = (280.459 + 0.98564736*D) % 360;
+      const Ldeg = (q + 1.915*Math.sin(g) + 0.020*Math.sin(2*g)) % 360;
+      const L = Ldeg * Math.PI/180;
+      const e = (23.439 - 0.00000036*D) * Math.PI/180;
+      let RA = Math.atan2(Math.cos(e)*Math.sin(L), Math.cos(L)) * 180/Math.PI / 15;
+      RA = ((RA % 24) + 24) % 24;
+      const decl = Math.asin(Math.sin(e)*Math.sin(L));
+      let eqt = q/15 - RA;
+      if(eqt > 12) eqt -= 24;
+      if(eqt < -12) eqt += 24;
+      return { decl, eqt };
+    }
+    function hourAngle(angleDeg, latDeg, decl){
+      const lat = latDeg * Math.PI/180;
+      const a = angleDeg * Math.PI/180;
+      let cosH = (Math.sin(a) - Math.sin(lat)*Math.sin(decl)) / (Math.cos(lat)*Math.cos(decl));
+      cosH = Math.max(-1, Math.min(1, cosH));
+      return Math.acos(cosH) * 180/Math.PI / 15;
+    }
+    function asrAngle(factor, latDeg, decl){
+      const lat = latDeg * Math.PI/180;
+      const x = factor + Math.tan(Math.abs(lat - decl));
+      return Math.atan(1/x) * 180/Math.PI;
+    }
+    function calcTimesFor(date){
+      const jd = julian(date.getFullYear(), date.getMonth()+1, date.getDate()) - TZ/24 + 0.5;
+      const { decl, eqt } = sunPos(jd);
+      const dhuhr = 12 + TZ - LNG/15 - eqt;
+      const t = (angle) => hourAngle(angle, LAT, decl);
+      return {
+        fajr: dhuhr - t(-FAJR_ANGLE),
+        sunrise: dhuhr - t(-0.833),
+        dhuhr: dhuhr,
+        asr: dhuhr + t(asrAngle(ASR_FACTOR, LAT, decl)),
+        maghrib: dhuhr + t(-0.833),
+        isha: dhuhr + t(-ISHA_ANGLE)
+      };
+    }
+    function fmtHM(h){
+      h = ((h % 24) + 24) % 24;
+      let hh = Math.floor(h), mm = Math.round((h-hh)*60);
+      if(mm === 60){ hh += 1; mm = 0; }
+      hh = hh % 24;
+      return String(hh).padStart(2,'0') + ':' + String(mm).padStart(2,'0');
+    }
+
+    // current time in Astana civil time (Asia/Almaty = UTC+5, matches unified KZ time since 2024)
+    function nowInAstanaHours(){
+      const parts = new Intl.DateTimeFormat('en-GB', {
+        timeZone: 'Asia/Almaty', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
+      }).formatToParts(new Date());
+      const get = (t) => parseInt(parts.find(p=>p.type===t).value, 10);
+      return get('hour') + get('minute')/60 + get('second')/3600;
+    }
+    function astanaDate(){
+      const s = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Almaty', year:'numeric', month:'2-digit', day:'2-digit' }).format(new Date());
+      const [y,m,d] = s.split('-').map(Number);
+      return new Date(y, m-1, d);
+    }
+
+    const order = ['fajr','sunrise','dhuhr','asr','maghrib','isha'];
+    const names = { fajr:'Фаджр', sunrise:'Восход', dhuhr:'Зухр', asr:'Аср', maghrib:'Магриб', isha:'Иша' };
+    const ids = { fajr:'tFajr', sunrise:'tSunrise', dhuhr:'tDhuhr', asr:'tAsr', maghrib:'tMaghrib', isha:'tIsha' };
+
+    let lastAutoPhase = null;
+
+    function tick(){
+      const today = astanaDate();
+      const times = calcTimesFor(today);
+      const nowH = nowInAstanaHours();
+
+      // render chip times (once is enough, but cheap to redo)
+      order.forEach(k => {
+        const el = document.getElementById(ids[k]);
+        if(el) el.textContent = fmtHM(times[k]);
+      });
+
+      // find next prayer (skip "sunrise" as a namaz — it's a marker, not a salah)
+      const salahKeys = ['fajr','dhuhr','asr','maghrib','isha'];
+      let nextKey = null, nextVal = null;
+      for(const k of salahKeys){
+        if(times[k] > nowH){ nextKey = k; nextVal = times[k]; break; }
+      }
+      if(!nextKey){
+        // after Isha — next is tomorrow's Fajr
+        const tomorrow = new Date(today); tomorrow.setDate(tomorrow.getDate()+1);
+        const t2 = calcTimesFor(tomorrow);
+        nextKey = 'fajr'; nextVal = t2.fajr + 24;
+      }
+      const diff = nextVal - nowH; // hours
+      const totalSec = Math.max(0, Math.round(diff*3600));
+      const hh = Math.floor(totalSec/3600);
+      const mm = Math.floor((totalSec%3600)/60);
+      const ss = totalSec%60;
+      const timerEl = document.getElementById('salahTimer');
+      const nameEl = document.getElementById('salahNextName');
+      if(timerEl) timerEl.textContent = String(hh).padStart(2,'0')+':'+String(mm).padStart(2,'0')+':'+String(ss).padStart(2,'0');
+      if(nameEl) nameEl.textContent = names[nextKey];
+
+      // highlight active chip = next upcoming marker
+      document.querySelectorAll('.salah-chip').forEach(c=>{
+        c.classList.toggle('active', c.getAttribute('data-key') === nextKey);
+      });
+
+      // auto theme: dark from Maghrib to Sunrise, light from Sunrise to Maghrib
+      // но только если пользователь ни разу не переключал тему вручную
+      let isManual = false;
+      try{ isManual = localStorage.getItem('ne-ti-theme-manual') === '1'; }catch(e){}
+      if(!isManual){
+        const isNight = (nowH >= times.maghrib) || (nowH < times.sunrise);
+        const phase = isNight ? 'dark' : 'light';
+        if(phase !== lastAutoPhase){
+          document.documentElement.setAttribute('data-theme', phase);
+          try{ localStorage.setItem('ne-ti-theme', phase); }catch(e){}
+          lastAutoPhase = phase;
+        }
+      }
+    }
+
+    tick();
+    setInterval(tick, 1000);
   })();
 
   // portfolio lightbox — click a case photo to view it enlarged
