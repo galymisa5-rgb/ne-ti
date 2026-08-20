@@ -1,0 +1,10 @@
+{
+  "redirects": [
+    { "source": "/dinamicheskie-ispytaniya-svay", "destination": "/dinamicheskie-ispytaniya-svai/", "permanent": true },
+    { "source": "/staticheskie-ispytaniya-svay", "destination": "/staticheskie-ispytaniya-svai/", "permanent": true },
+    { "source": "/uslugi", "destination": "/#services", "permanent": true },
+    { "source": "/uslugi/", "destination": "/#services", "permanent": true },
+    { "source": "/kontakty", "destination": "/#contact", "permanent": true },
+    { "source": "/kontakty/", "destination": "/#contact", "permanent": true }
+  ]
+}
