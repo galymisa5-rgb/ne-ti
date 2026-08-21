@@ -75,7 +75,7 @@
     }
 
     const order = ['fajr','sunrise','dhuhr','asr','maghrib','isha'];
-    const names = { fajr:'Таң', sunrise:'Күн шығу', dhuhr:'Бесін', asr:'Екінті', maghrib:'Ақшам', isha:'Құптан' };
+    const names = { fajr:'Фаджр', sunrise:'Восход', dhuhr:'Зухр', asr:'Аср', maghrib:'Магриб', isha:'Иша' };
     const ids = { fajr:'tFajr', sunrise:'tSunrise', dhuhr:'tDhuhr', asr:'tAsr', maghrib:'tMaghrib', isha:'tIsha' };
 
     let lastAutoPhase = null;
