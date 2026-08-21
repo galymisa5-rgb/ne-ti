@@ -219,6 +219,30 @@
   </div>
 </header>
 
+<!-- prayer times widget — first thing after header, both mobile and desktop -->
+<div class="wrap" style="padding-top:20px;">
+  <div class="salah-card" id="salahCard">
+    <div class="salah-top">
+      <div>
+        <div class="salah-next-label" id="salahNextLabel">Намаз</div>
+        <div class="salah-next-name" id="salahNextName">—</div>
+        <div class="salah-timer" id="salahTimer">--:--:--</div>
+      </div>
+      <div class="salah-city">
+        <b>Астана</b>
+      </div>
+    </div>
+    <div class="salah-row" id="salahRow">
+      <div class="salah-chip" data-key="fajr"><span class="salah-chip-name">Фаджр</span><span class="salah-chip-time" id="tFajr">--:--</span></div>
+      <div class="salah-chip" data-key="sunrise"><span class="salah-chip-name">Восход</span><span class="salah-chip-time" id="tSunrise">--:--</span></div>
+      <div class="salah-chip" data-key="dhuhr"><span class="salah-chip-name">Зухр</span><span class="salah-chip-time" id="tDhuhr">--:--</span></div>
+      <div class="salah-chip" data-key="asr"><span class="salah-chip-name">Аср</span><span class="salah-chip-time" id="tAsr">--:--</span></div>
+      <div class="salah-chip" data-key="maghrib"><span class="salah-chip-name">Магриб</span><span class="salah-chip-time" id="tMaghrib">--:--</span></div>
+      <div class="salah-chip" data-key="isha"><span class="salah-chip-name">Иша</span><span class="salah-chip-time" id="tIsha">--:--</span></div>
+    </div>
+  </div>
+</div>
+
 <main>
   <!-- HERO -->
   <section class="hero">
@@ -238,7 +262,7 @@
         </div>
       </div>
 
-      <div class="diagram-card" style="grid-area:diagram;">
+      <div class="diagram-card">
         <div class="diagram-head">
           <div class="diagram-title">Схема испытания · вдавливающая нагрузка</div>
           <div class="diagram-readout">осадка сваи <b id="settleVal">0.0 мм</b></div>
@@ -274,28 +298,6 @@
         </svg>
         <div class="diagram-head" style="margin-top:6px;border-top:1px solid var(--line);padding-top:12px;">
           <span class="diagram-title">объект: свая С90-30, испытание №04</span>
-        </div>
-      </div>
-
-      <!-- prayer times widget -->
-      <div class="salah-card" id="salahCard" style="grid-area:salah;">
-        <div class="salah-top">
-          <div>
-            <div class="salah-next-label" id="salahNextLabel">Намаз</div>
-            <div class="salah-next-name" id="salahNextName">—</div>
-            <div class="salah-timer" id="salahTimer">--:--:--</div>
-          </div>
-          <div class="salah-city">
-            <b>Астана</b>
-          </div>
-        </div>
-        <div class="salah-row" id="salahRow">
-          <div class="salah-chip" data-key="fajr"><span class="salah-chip-name">Таң</span><span class="salah-chip-time" id="tFajr">--:--</span></div>
-          <div class="salah-chip" data-key="sunrise"><span class="salah-chip-name">Күн шығу</span><span class="salah-chip-time" id="tSunrise">--:--</span></div>
-          <div class="salah-chip" data-key="dhuhr"><span class="salah-chip-name">Бесін</span><span class="salah-chip-time" id="tDhuhr">--:--</span></div>
-          <div class="salah-chip" data-key="asr"><span class="salah-chip-name">Екінті</span><span class="salah-chip-time" id="tAsr">--:--</span></div>
-          <div class="salah-chip" data-key="maghrib"><span class="salah-chip-name">Ақшам</span><span class="salah-chip-time" id="tMaghrib">--:--</span></div>
-          <div class="salah-chip" data-key="isha"><span class="salah-chip-name">Құптан</span><span class="salah-chip-time" id="tIsha">--:--</span></div>
         </div>
       </div>
     </div>
