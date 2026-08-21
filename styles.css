@@ -96,24 +96,16 @@
   @media(max-width:880px){.navlinks{display:none;} .phone-link{display:none;}}
 
   /* hero */
-  .hero{position:relative;z-index:1;padding:88px 0 40px;}
+  .hero{position:relative;z-index:1;padding:40px 0 40px;}
   .hero-grid{
     display:grid;
     grid-template-columns:1.05fr .95fr;
-    grid-template-areas:
-      "text diagram"
-      "text salah";
     gap:24px 56px;
-    align-items:start;
+    align-items:center;
   }
-  .hero-grid > .hero-text{align-self:center;}
   @media(max-width:980px){
     .hero-grid{
       grid-template-columns:1fr;
-      grid-template-areas:
-        "salah"
-        "text"
-        "diagram";
       gap:28px;
     }
   }
@@ -163,7 +155,9 @@
   .salah-card{
     background:var(--bg-panel);border:1px solid var(--line);border-radius:10px;
     padding:14px 16px;
+    max-width:440px;
   }
+  @media(max-width:600px){ .salah-card{ max-width:none; } }
   .salah-top{display:flex;justify-content:space-between;align-items:flex-start;}
   .salah-next-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;}
   .salah-next-name{font-family:'Space Grotesk';font-weight:600;font-size:15px;color:var(--paper);margin-top:2px;}
