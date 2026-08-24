@@ -4,7 +4,7 @@
     // Углы и поправки калиброваны по таблице azan.kz (ханафитский мазхаб, г. Астана) — расхождение < 2 минут
     const FAJR_ANGLE = 15, ISHA_ANGLE = 15;
     const ASR_FACTOR = 2; // Hanafi madhhab
-    const IHTIYAT = { fajr: -1.2, sunrise: -5.2, dhuhr: 5.0, asr: 4.9, maghrib: 4.35, isha: 0.0 }; // минуты, поправка безопасности как у azan.kz
+    const IHTIYAT = { fajr: -0.29, sunrise: -5.2, dhuhr: 5.0, asr: 4.9, maghrib: 4.35, isha: -0.99 }; // минуты, поправка безопасности как у azan.kz (уточнено по факту на 24.08.2026)
 
     function julian(y, m, d){
       if(m <= 2){ y -= 1; m += 12; }
@@ -110,8 +110,14 @@
       const ss = totalSec%60;
       const timerEl = document.getElementById('salahTimer');
       const nameEl = document.getElementById('salahNextName');
-      if(timerEl) timerEl.textContent = String(hh).padStart(2,'0')+':'+String(mm).padStart(2,'0')+':'+String(ss).padStart(2,'0');
+      const timeStr = String(hh).padStart(2,'0')+':'+String(mm).padStart(2,'0')+':'+String(ss).padStart(2,'0');
+      if(timerEl) timerEl.textContent = timeStr;
       if(nameEl) nameEl.textContent = names[nextKey];
+
+      const headerNameEl = document.getElementById('headerSalahName');
+      const headerTimerEl = document.getElementById('headerSalahTimer');
+      if(headerNameEl) headerNameEl.textContent = names[nextKey];
+      if(headerTimerEl) headerTimerEl.textContent = timeStr;
 
       // highlight active chip = next upcoming marker
       document.querySelectorAll('.salah-chip').forEach(c=>{
