@@ -4,7 +4,7 @@
     // Углы и поправки калиброваны по таблице azan.kz (ханафитский мазхаб, г. Астана) — расхождение < 2 минут
     const FAJR_ANGLE = 15, ISHA_ANGLE = 15;
     const ASR_FACTOR = 2; // Hanafi madhhab
-    const IHTIYAT = { fajr: -0.29, sunrise: -5.2, dhuhr: 5.0, asr: 4.9, maghrib: 4.35, isha: -0.99 }; // минуты, поправка безопасности как у azan.kz (уточнено по факту на 24.08.2026)
+    const IHTIYAT = { fajr: -0.29, sunrise: -5.2, dhuhr: 5.0, asr: 4.9, maghrib: 4.35, isha: -0.93 }; // минуты, поправка безопасности как у azan.kz (уточнено по факту на 24 и 26.08.2026)
 
     function julian(y, m, d){
       if(m <= 2){ y -= 1; m += 12; }
